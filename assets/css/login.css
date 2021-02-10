@@ -1,0 +1,16 @@
+html, body {
+    height: 100%;
+    width: 100%;
+}
+.card {
+    width: 50%;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: max-content;
+    padding: 0 20px;
+}
+.form-group {
+    margin-bottom: 10px;
+}
