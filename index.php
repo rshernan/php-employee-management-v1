@@ -8,28 +8,36 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/login.css">
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    
     <title>Employee Management</title>
 </head>
 <body>
     <div class="card">
         <img src="assets/logoAssembler.png" class="card-img-top" alt="Responsive image">
-        <form action="" class="card-body">
+        <form action="" class="card-body needs-validation" novalidate>
             <div class="alert alert-danger alert-dismissible fade show">
-                <strong>Error!</strong> Incorrect credentials.
-                <button type="button" class="btn close" data-dismiss="alert" aria-label="Close">
+            <button type="button" class="btn close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
-                </button>
+            </button>
+            <strong>Error!</strong> Incorrect credentials.
             </div>
             <div class="form-group row">
-                <input type="email" name="" id="" class="form-control" placeholder="Email address">
+                <input type="email" id="validationCustom01" class="form-control" placeholder="Email address" require>
+                <!-- <div class="invalid-feedback">You have entered an invalid email</div> --> <!-- // Bootrat specific validation -->
             </div>
             <div class="form-group row">
-                <input type="password" name="" id="" class="form-control" placeholder="Password">
+                <input type="password" id="validationCustom02" class="form-control" placeholder="Password" require>
+                <!-- <div class="invalid-feedback">You have entered an invalid password</div> --> <!-- // Bootrat specific validation -->
             </div>
             <div class="form-group row">
                 <button type="submit" class="btn btn-primary">Sign in</button>
             </div>
         </form>
     </div>
+
+<script src="assets/js/index.js"></script>
 </body>
 </html>
