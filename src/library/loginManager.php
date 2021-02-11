@@ -1,5 +1,7 @@
 <?php
 //functions for the user can log in, save their session data and log out
+include ("sessionHelper.php");
+
 function verifyLoginData ($emailInput, $passwordInput) {
     //Get users information
     $usersFile = file_get_contents('C:\xampp\htdocs\PHP-EmployeeManagement\php-employee-management-v1\resources\users.json');
@@ -35,14 +37,17 @@ function logIn ($email, $password) {
     //set session variables
     $_SESSION["email"] = $email;
     $_SESSION["password"] = $password;
-    header('Location: src/dashboard.php');
+    $_SESSION["startTime"] = time();
+    $_SESSION["limitTime"] = 36000;
+    header("Refresh: 0; URL='sessionHelper.php'");
+    header('Location: C:\xampp\htdocs\PHP-EmployeeManagement\php-employee-management-v1\src\dashboard.php');
     exit;
 }
 
 function logOut () {
     session_start();
     session_destroy();
-    redirectionToLogin ('logOut');
+    /* redirectionToLogin ('logOut'); */
 }
 
 function redirectionToLogin ($cause) {
@@ -50,10 +55,12 @@ function redirectionToLogin ($cause) {
         case 'timeOut':
             $mns = 'Your session time was over';
             $type = 'alert-danger';
+            logOut();
             break;
         case 'logOut':
             $mns = 'You log out correctly';
             $type = 'alert-success';
+            logOut();
             break;
         case 'verifyNopassed':
             $mns = 'Your email or password were incorrect';
@@ -62,6 +69,7 @@ function redirectionToLogin ($cause) {
         default:
             $mns = 'There was an error, please login again';
             $type = 'alert-danger';
+            logOut();
             break;
     }
     header('Location: ../../index.php?logoutMsg='.$mns.'&logoutType='.$type.'');

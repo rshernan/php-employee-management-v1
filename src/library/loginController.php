@@ -16,7 +16,7 @@ if (verifyLoginData($emailInput, $passwordInput)){
 };
 
 if (isset($_GET['logout']) && $_GET['logout'] == true){
-    logOut();
+    redirectionToLogin ('logOut');
 };
 
 
