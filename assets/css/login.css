@@ -19,6 +19,10 @@ html, body {
     position: relative;
     display: none;
 }
+
+.show {
+    display: block;
+}
 .close {
     position: absolute;
     top: 0;

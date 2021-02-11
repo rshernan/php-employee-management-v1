@@ -11,6 +11,7 @@ function disabledFormSubmit () {
                 event.preventDefault();
                 event.stopPropagation();
                 $(".alert").fadeIn();
+                $(".show").fadeOut(); //hide if there is php error msg before
                 }
                 //form.classList.add('was-validated'); Bootstrat specific validation
             }, false);
@@ -22,4 +23,5 @@ disabledFormSubmit();
 function hideErrorMsg () {
     $(this).parent().fadeOut();
 }
+
 $(".close").on('click', hideErrorMsg);
