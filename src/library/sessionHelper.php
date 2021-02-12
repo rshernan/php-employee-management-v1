@@ -11,10 +11,7 @@ if (session_status()==1) {
 
 if (isset($_SESSION['startTime']) && $_SESSION['limitTime']) {
     $now = time();
-    $startTime = $_SESSION['startTime'];
-    $limitTime = $_SESSION['limitTime'];
-    $timeLeft = ($now > $startTime ? $now : $startTime) - $startTime;
-    if ($timeLeft > $_SESSION['limitTime']) {
+    if ($now > $_SESSION['limitTime']) {
         // this session has worn out its welcome; kill it and start a brand new one
         redirectionToLogin('Your session time was over');
     }

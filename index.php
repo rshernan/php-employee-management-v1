@@ -14,10 +14,11 @@
     
     <title>Employee Management</title>
 </head>
+
 <body>
     <div class="card">
         <img src="assets/logoAssembler.png" class="card-img-top" alt="Responsive image">
-        <form action="src/library/loginController.php" method="POST" class="card-body needs-validation" novalidate>
+        <form action="src\library\loginController.php" method="POST" class="card-body needs-validation" novalidate>
             <?php if(isset($_GET['logoutMsg']) && isset($_GET['logoutType'])) {
                 $alertType = $_GET['logoutType'];
                 $alertMsg = $_GET['logoutMsg'];
