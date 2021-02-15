@@ -21,45 +21,17 @@
 <body>
     <div id="jsGrid"></div>
     <script>
-    var employees = [{
-        "id": "1",
-        "name": "Rack",
-        "lastName": "Lei",
-        "email": "jackon@network.com",
-        "gender": "man",
-        "city": "San Jone",
-        "streetAddress": "126",
-        "state": "CA",
-        "age": "24",
-        "postalCode": "394221",
-        "phoneNumber": "7383627627"
-    },
-    {
-        "id": "2",
-        "name": "John",
-        "lastName": "Doe",
-        "email": "jhondoe@foo.com",
-        "gender": "man",
-        "city": "New York",
-        "streetAddress": "89",
-        "state": "WA",
-        "age": "34",
-        "postalCode": "09889",
-        "phoneNumber": "1283645645"
-    },
-    {
-        "id": "3",
-        "name": "Leila",
-        "lastName": "Mills",
-        "email": "mills@leila.com",
-        "gender": "woman",
-        "city": "San Diego",
-        "streetAddress": "55",
-        "state": "CA",
-        "age": "29",
-        "postalCode": "098765",
-        "phoneNumber": "9983632461"
-    }];
+    console.log("hola")
+    var employees = [];
+    $.ajax({
+        type: "GET",
+        url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
+        dataType: "json",
+        success: function (data) {
+            console.log("data");
+        }
+    });
+
     $("#jsGrid").jsGrid({
         width: "100%",
         height: "100%",
@@ -69,18 +41,18 @@
         sorting: true,
         paging: true,
 
-        //data: employees,
-        controller: {
+        data: employees,
+        /* controller: {
         loadData: function(filter) {
             return $.ajax({
         type: "GET",
-        url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/resources/employees.json",
+        url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
         data: filter,
         dataType: "json"
     }).then(function(result) {
         console.log(result.data)
         return result.data;
-    });
+    }); */
             /* var deferred = $.Deferred();
             $.ajax({
                 type: "get",
@@ -92,8 +64,6 @@
             });
             console.log(deferred.promise());
             return deferred.promise(); */
-        }
-    },
 
         fields: [
             { name: "name", title: "Name", type: "text", width: 150, validate: "required" },
