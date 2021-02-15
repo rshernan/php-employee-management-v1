@@ -25,3 +25,13 @@ function hideErrorMsg () {
 }
 
 $(".close").on('click', hideErrorMsg);
+
+function request(e){
+    e.preventDefault();
+    let data = {};
+    $(".employee__form").serializeArray().forEach(function(element){
+        console.log(element);
+    });
+}
+
+$(".employee__form").on('submit', request);
