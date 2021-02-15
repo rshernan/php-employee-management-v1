@@ -1,6 +1,7 @@
 <!-- TODO Main view or Employees Grid View here is where you get when logged here there's the grid of employees -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,31 +19,29 @@
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
 </head>
+
 <body>
     <div id="jsGrid"></div>
     <script>
-    console.log("hola")
-    var employees = [];
-    $.ajax({
-        type: "GET",
-        url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
-        dataType: "json",
-        success: function (data) {
-            console.log("data");
-        }
-    });
+        console.log("hola")
+        var employees = [];
+        $.ajax({
+            type: "GET",
+            url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
+            dataType: "json",
+        }).done(function(response) {
+            employees = response;
+            $("#jsGrid").jsGrid({
+                width: "100%",
+                height: "100%",
 
-    $("#jsGrid").jsGrid({
-        width: "100%",
-        height: "100%",
+                inserting: true,
+                editing: true,
+                sorting: true,
+                paging: true,
 
-        inserting: true,
-        editing: true,
-        sorting: true,
-        paging: true,
-
-        data: employees,
-        /* controller: {
+                data: employees,
+                /* controller: {
         loadData: function(filter) {
             return $.ajax({
         type: "GET",
@@ -53,33 +52,86 @@
         console.log(result.data)
         return result.data;
     }); */
-            /* var deferred = $.Deferred();
-            $.ajax({
-                type: "get",
-                url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/resources/employees.json",
-                dataType: "json",
-                success: function(response) {
-                    deferred.resolve(response.items);
-                }
+                /* var deferred = $.Deferred();
+                $.ajax({
+                    type: "get",
+                    url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/resources/employees.json",
+                    dataType: "json",
+                    success: function(response) {
+                        deferred.resolve(response.items);
+                    }
+                });
+                console.log(deferred.promise());
+                return deferred.promise(); */
+
+                fields: [{
+                        name: "name",
+                        title: "Name",
+                        type: "text",
+                        width: 150,
+                        validate: "required"
+                    },
+                    {
+                        name: "lastName",
+                        title: "Last name",
+                        type: "text",
+                        width: 150,
+                        validate: "required"
+                    },
+                    {
+                        name: "email",
+                        title: "Email",
+                        type: "text",
+                        width: 150,
+                        validate: "required"
+                    },
+                    {
+                        name: "gender",
+                        title: "Gender",
+                        type: "select",
+                        items: ["male", "female"],
+                        valueType: "string"
+                    },
+                    {
+                        name: "city",
+                        type: "text",
+                        width: 200
+                    },
+                    {
+                        name: "streetAddress",
+                        type: "text",
+                        width: 200
+                    },
+                    {
+                        name: "state",
+                        type: "text",
+                        width: 200
+                    },
+                    {
+                        name: "age",
+                        type: "number",
+                        width: 50
+                    },
+                    {
+                        name: "postalCode",
+                        type: "number",
+                        width: 50
+                    },
+                    {
+                        name: "phone",
+                        type: "number",
+                        width: 50
+                    },
+
+                    {
+                        type: "control"
+                    }
+                ]
             });
-            console.log(deferred.promise());
-            return deferred.promise(); */
-
-        fields: [
-            { name: "name", title: "Name", type: "text", width: 150, validate: "required" },
-            { name: "lastName", title: "Last name", type: "text", width: 150, validate: "required" },
-            { name: "email", title: "Email", type: "text", width: 150, validate: "required" },
-            { name: "gender", title: "Gender", type: "select", items: ["male", "female"], valueType: "string"},
-            { name: "city", type: "text", width: 200 },
-            { name: "streetAddress", type: "text", width: 200 },
-            { name: "state", type: "text", width: 200 },
-            { name: "age", type: "number", width: 50 },
-            { name: "postalCode", type: "number", width: 50 },
-            { name: "phone", type: "number", width: 50 },
-
-            { type: "control" }
-        ]
-    });
-</script>
+        }).fail(function(status) {
+            console.log(status);
+        });;
+    </script>
 </body>
+
 </html>

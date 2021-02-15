@@ -34,7 +34,7 @@
             </label>
             <label for="state">
                 state:
-                <input type="text" id="state" name="sate" required>
+                <input type="text" id="state" name="state" required>
             </label>
             <label for="postalCode">
                 postal code:

@@ -26,12 +26,80 @@ function hideErrorMsg () {
 
 $(".close").on('click', hideErrorMsg);
 
-function request(e){
+function addEmployee(e){
     e.preventDefault();
     let data = {};
-    $(".employee__form").serializeArray().forEach(function(element){
-        console.log(element);
+    $.ajax({
+        url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
+        type: "POST",
+        data: data,
+        dataType: "json"
+    }).done(function(response){
+        console.log(response);
+        console.log("usuario agregado");
+    }).fail(function(status) {
+        console.log(status);
     });
 }
 
-$(".employee__form").on('submit', request);
+function updateEmployee(e){
+    e.preventDefault();
+    let data = {};
+    $(".employee__form").serializeArray().forEach(function(element){
+        let pairValue = {[element.name] : element.value}
+        Object.assign(data,pairValue);
+    });
+    $.ajax({
+        url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
+        type: "PUT",
+        data: data,
+        dataType: "json"
+    }).done(function(response){
+        console.log(response);
+        console.log("usuario agregado");
+    }).fail(function(status) {
+        console.log(status);
+    });
+}
+
+function deleteEmployee(employeeId){
+    let data = {};
+    if(employeeId!=null){
+        Object.assign(data, {"id":employeeId});
+    }
+    $.ajax({
+        url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
+        type: "DELETE",
+        data: data,
+        dataType: "json"
+    }).done(function(response){
+        console.log(response);
+        console.log("usuario agregado");
+    }).fail(function(status) {
+        console.log(status);
+    });
+}
+
+function getEmployee(employeeId){
+    let data = {};
+    if(employeeId!=null){
+        Object.assign(data, {"id":employeeId});
+    }
+    $.ajax({
+        url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
+        type: "GET",
+        data: data,
+        dataType: "json"
+    }).done(function(response){
+        console.log(response);
+        console.log("usuario agregado");
+    }).fail(function(status) {
+        console.log(status);
+    });
+}
+
+
+
+$(".employee__form").on('submit', function(){
+    
+});

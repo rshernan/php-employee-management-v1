@@ -33,7 +33,7 @@ function deleteEmployee()
 function getEmloyee()
 {
     try {
-        getEmloyee(getQueryStringParameters()['id']);
+        echo getEmloyee(getQueryStringParameters()['id']);
     } catch (Exception $e) {
         echo 'Excepción capturada: ',  $e->getMessage(), "\n";
     }
@@ -42,7 +42,8 @@ function getEmloyee()
 function getAllEmployees()
 {
     try {
-        return getAll();
+        //header('Content-Type: application/json');
+        echo getAll();
     } catch (Exception $e) {
         echo 'Excepción capturada: ',  $e->getMessage(), "\n";
     }
@@ -58,8 +59,6 @@ function getQueryStringParameters(): array
     print_r($_REQUEST);
     return $_REQUEST;
 }
-
-/*
 switch ($_SERVER['REQUEST_METHOD']) {
     case "DELETE":
         deleteEmployee();
@@ -78,4 +77,3 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
         break;
 }
-*/
