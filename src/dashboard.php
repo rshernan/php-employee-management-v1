@@ -22,6 +22,7 @@
 
 <body>
     <div id="jsGrid"></div>
+    <div class="alert alert-danger"></div>
     <script>
         console.log("hola")
         var employees = [];
@@ -38,7 +39,18 @@
                 inserting: true,
                 editing: true,
                 sorting: true,
+
                 paging: true,
+                pageIndex: 1,
+                pageSize: 5,
+                pageButtonCount: 15,
+                pagerFormat: "Pages:  {pages} {prev} {next}    {pageIndex} of {pageCount}",
+                pagePrevText: "Prev",
+                pageNextText: "Next",
+
+                confirmDeleting: true,
+                deleteConfirm: "Do you really want to delete the employee?",
+ 
 
                 rowClick: function(args) {
                     window.location.href = `employee.php?employee=${args.item}`;
@@ -73,40 +85,86 @@
                         title: "Name",
                         type: "text",
                         align: "center",
-                        validate: "required"
+                        validate: {
+                            validator: function(value, item) {
+                                if (value == "") {
+                                    return false;
+                                } else {
+                                    name_regex = /^[a-zA-Z-' ]*$/;
+                                    return name_regex.test(value);
+                                }
+                                },
+                            message: function(value, item) {
+                                if (value == "") {
+                                    return "The name is required";
+                                } else {
+                                    return "Please, use a valid name";
+                                }
+                            }
+                        }
                     },
-                    {
-                        name: "lastName",
-                        title: "Last name",
-                        type: "text",
-                        align: "center",
-                        validate: "required"
-                    },
+                    //{
+                    //    name: "lastName",
+                    //    title: "Last name",
+                    //    type: "text",
+                    //    align: "center",
+                    //    validate: "required"
+                    //},
                     {
                         name: "email",
                         title: "Email",
                         width: 150,
                         type: "text",
                         align: "center",
-                        validate: "required"
+                        validate: {
+                            validator: function(value, item) {
+                                if (value == "") {
+                                    return false;
+                                } else {
+                                    email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+                                    return email_regex.test(value);
+                                }
+                                },
+                            message: function(value, item) {
+                                if (value == "") {
+                                    return "The email is required";
+                                } else {
+                                    return "Please, enter a correct email";
+                                }
+                            }
+                        }
                     },
                     {
-                        name: "gender",
-                        title: "Gender",
-                        type: "select",
+                        name: "age",
+                        title: "Age",
+                        type: "number",
                         align: "center",
-                        items: ["male", "female"],
-                        valueType: "string"
+                        width: 40,
+                        validate: [
+                            "required",
+                            { validator: "range", param: [21, 80] },
+                            function(value, item) {
+                                return item.IsRetired ? value > 55 : true;
+                            }
+                        ]
                     },
+                    //{
+                    //    name: "gender",
+                    //    title: "Gender",
+                    //    type: "select",
+                    //    align: "center",
+                    //    items: ["male", "female"],
+                    //    valueType: "string"
+                    //},
                     {
-                        name: "city",
-                        title: "City",
+                        name: "streetAddress",
+                        title: "Street Nº",
                         align: "center",
                         type: "text",
                     },
                     {
-                        name: "streetAddress",
-                        title: "Street address",
+                        name: "city",
+                        title: "City",
                         align: "center",
                         type: "text",
                     },
@@ -116,13 +174,6 @@
                         type: "text",
                         align: "center",
                         width: 50
-                    },
-                    {
-                        name: "age",
-                        title: "Age",
-                        type: "number",
-                        align: "center",
-                        width: 40
                     },
                     {
                         name: "postalCode",
@@ -136,8 +187,18 @@
                         title: "Phone",
                         type: "number",
                         align: "center",
-                        width: 100
-                    },
+                        width: 100,
+                        validate: {
+                            validator: function(value, item) {
+                                    return value.length == 10 && phoneBelongsToCountry(value, item.Country);
+                                },
+                            message: function(value, item) {
+                                return "Please, enter a correct phone number";
+                            }
+                        }
+},
+
+            
 
                     {
                         type: "control"
