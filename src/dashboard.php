@@ -27,7 +27,7 @@
         var employees = [];
         $.ajax({
             type: "GET",
-            url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
+            url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
             dataType: "json",
         }).done(function(response) {
             employees = response;
@@ -40,87 +40,99 @@
                 sorting: true,
                 paging: true,
 
-                data: employees,
-                /* controller: {
-        loadData: function(filter) {
-            return $.ajax({
-        type: "GET",
-        url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
-        data: filter,
-        dataType: "json"
-    }).then(function(result) {
-        console.log(result.data)
-        return result.data;
-    }); */
-                /* var deferred = $.Deferred();
-                $.ajax({
-                    type: "get",
-                    url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/resources/employees.json",
+                rowClick: function(args) {
+                    window.location.href = `employee.php?employee=${args.item}`;
+                },
+                onItemInserting: function (args) {
+                    console.log("inserting")
+                    console.log(args.item);
+                    $.ajax({
+                    type: "POST",
+                    url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
+                    data: args.item,
                     dataType: "json",
-                    success: function(response) {
-                        deferred.resolve(response.items);
-                    }
                 });
-                console.log(deferred.promise());
-                return deferred.promise(); */
+                },
+                onItemUpdating: function () {
+                    console.log("updating")
+                    $.ajax({
+                    type: "PUT",
+                    url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
+                    data: args.item,
+                    dataType: "json",
+                });
+            },
+                data: employees,
 
                 fields: [{
                         name: "name",
                         title: "Name",
                         type: "text",
-                        width: 150,
+                        align: "center",
                         validate: "required"
                     },
                     {
                         name: "lastName",
                         title: "Last name",
                         type: "text",
-                        width: 150,
+                        align: "center",
                         validate: "required"
                     },
                     {
                         name: "email",
                         title: "Email",
-                        type: "text",
                         width: 150,
+                        type: "text",
+                        align: "center",
                         validate: "required"
                     },
                     {
                         name: "gender",
                         title: "Gender",
                         type: "select",
+                        align: "center",
                         items: ["male", "female"],
                         valueType: "string"
                     },
                     {
                         name: "city",
+                        title: "City",
+                        align: "center",
                         type: "text",
-                        width: 200
                     },
                     {
                         name: "streetAddress",
+                        title: "Street address",
+                        align: "center",
                         type: "text",
-                        width: 200
                     },
                     {
                         name: "state",
+                        title: "State",
                         type: "text",
-                        width: 200
+                        align: "center",
+                        width: 50
                     },
                     {
                         name: "age",
+                        title: "Age",
                         type: "number",
-                        width: 50
+                        align: "center",
+                        width: 40
                     },
                     {
                         name: "postalCode",
+                        title: "Postal Code",
                         type: "number",
-                        width: 50
+                        align: "center",
+                        width: 100
                     },
                     {
                         name: "phone",
+                        title: "Phone",
                         type: "number",
-                        width: 50
+                        align: "center",
+                        width: 100
                     },
 
                     {
@@ -129,7 +141,7 @@
                 ]
             });
         }).fail(function(status) {
-            console.log(status);
+            console.log("fail: "+status);
         });;
     </script>
 </body>
