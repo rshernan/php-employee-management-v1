@@ -60,6 +60,9 @@
                 rowClick: function(args) {
                     window.location.href = `employee.php?employee=${args.item}`;
                 },
+                editItem: function(item) {
+                    window.location.href = `employee.php?employee=${args.item}&edit=true`;
+                },
                 onItemInserting: function (args) {
                     console.log("inserting")
                     console.log(args.item);
@@ -70,9 +73,9 @@
                     dataType: "json",
                     });
                 },
-                onItemUpdating: function () {
-                    prevent.default ();
+                onItemUpdating: function (args) {
                     window.location.href = `employee.php?employee=${args.item}`;
+                    args.cancel = true;
                 },
                 onItemDeleting: function (args) {
                     console.log("delete")
@@ -94,7 +97,7 @@
                         align: "center",
                         validate: {
                             validator: function(value, item) {
-                                validationFunction(value, item);
+                                validationFunction(value, "name");
                             },
                         }
                     },
@@ -113,16 +116,7 @@
                         align: "center",
                         validate: {
                             validator: function(value, item) {
-                                if (value == "") {
-                                    $errorMsg = `<p>You need to enter an email</p>`
-                                    $(".alert").append($errorMsg);
-                                } else {
-                                    email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-                                    if (!email_regex.test(value)) {
-                                        $errorMsg = `<p>Please, enter a valid email</p>`
-                                        $(".alert").append($errorMsg);
-                                    }
-                                }
+                                validationFunction(value, "email")
                             },
                         }
                     },
@@ -134,18 +128,7 @@
                         width: 40,
                         validate: {
                             validator: function(value, item) {
-                                if (value == null) {
-                                    $errorMsg = `<p>You need to enter an age</p>`
-                                    $(".alert").append($errorMsg);
-                                } else {
-                                    if (value > 100 || value < 16){
-                                    $errorMsg = `<p>The age must be between 16 and 100</p>`
-                                    $(".alert").append($errorMsg);
-                                    } else if (!Number.isInteger(value) && value != "") {
-                                    $errorMsg = `<p>Please enter a correct age</p>`
-                                    $(".alert").append($errorMsg);
-                                    }
-                                }
+                                validationFunction(value, "age");
                             },
                         }
                     },
@@ -191,14 +174,8 @@
                         width: 100,
                         validate: {
                             validator: function(value, item) {
-                                if (value == null) {
-                                    $errorMsg = `<p>You need to enter a phone number</p>`
-                                    $(".alert").append($errorMsg);
-                                } else {
-                                    if (!value.length == 10 && phoneBelongsToCountry(value, item.Country)) {
-                                        $(".alert").text("Please enter a valid phone");
-                                    }
-                                }
+                                validationFunction(value, "phone");
+
                             },
                         }
                     },
@@ -210,8 +187,8 @@
         }).fail(function(status) {
             console.log("fail: "+status);
         });
-    function validationFunction(value, item) {
-        switch (item) {
+    function validationFunction(value, field) {
+        switch (field) {
             case "name":
                 if (value == "") {
                 $errorMsg = `<p>You need to enter a name</p>`
@@ -221,6 +198,46 @@
                     if (!name_regex.test(value)) {
                         $errorMsg = `<p>Please, enter a valid name</p>`
                         $(".alert").append($errorMsg);
+                    }
+                }
+                break;
+            case "email":
+                if (value == "") {
+                    $errorMsg = `<p>You need to enter an email</p>`
+                    $(".alert").append($errorMsg);
+                } else {
+                    email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+                    if (!email_regex.test(value)) {
+                        $errorMsg = `<p>Please, enter a valid email</p>`
+                        $(".alert").append($errorMsg);
+                    }
+                }
+                break;
+            case "age":
+                if (value == null) {
+                    $errorMsg = `<p>You need to enter an age</p>`
+                    $(".alert").append($errorMsg);
+                } else {
+                    if (value > 100 || value < 16){
+                    $errorMsg = `<p>The age must be between 16 and 100</p>`
+                    $(".alert").append($errorMsg);
+                    } else if (!Number.isInteger(value) && value != "") {
+                    $errorMsg = `<p>Please enter a correct age</p>`
+                    $(".alert").append($errorMsg);
+                    }
+                }
+                break;
+            case "phone":
+                if (value == null) {
+                    $errorMsg = `<p>You need to enter an age</p>`
+                    $(".alert").append($errorMsg);
+                } else {
+                    if (value > 100 || value < 16){
+                    $errorMsg = `<p>The age must be between 16 and 100</p>`
+                    $(".alert").append($errorMsg);
+                    } else if (!Number.isInteger(value) && value != "") {
+                    $errorMsg = `<p>Please enter a correct age</p>`
+                    $(".alert").append($errorMsg);
                     }
                 }
                 break;
