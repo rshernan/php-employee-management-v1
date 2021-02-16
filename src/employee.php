@@ -20,55 +20,43 @@
 <body>
     <form action="" method="post" class="employee__form" style="display:flex;flex-direction:row">
         <div class="column" style="display:flex;flex-direction:column;">
-            <label for="name">
-                name:
-                <input type="text" id="name" name="name" required>
-            </label>
-            <label for="email">
-                email:
-                <input type="email" id="email" name="email" required>
-            </label>
-            <label for="city">
-                city:
-                <input type="text" id="city" name="city" required>
-            </label>
-            <label for="state">
-                state:
-                <input type="text" id="state" name="state" required>
-            </label>
-            <label for="postalCode">
-                postal code:
-                <input type="number" id="postalCode" name="postalCode" max="99999" required>
-            </label>
+            <label for="name">name</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">email</label>
+            <input type="email" id="email" name="email" required>
+            <label for="city">city</label>
+            <input type="text" id="city" name="city" required>
+            <label for="state">state</label>
+            <input type="text" id="state" name="state" required>
+            <label for="postalCode">postal code</label>
+            <input type="number" id="postalCode" name="postalCode" max="99999" required>
             <input name="submit" type="submit" value="SUBMIT" />
+            <button>back</button>
         </div>
         <div class="column" style="display:flex;flex-direction:column;">
-            <label for="lastName">
-                last name:
-                <input type="text" id="lastName" name="lastName" required>
-            </label>
-            <label for="gender">
-                gender:
-                <select name="gender" id="gender" required>
-                    <option value="nb">non-binary</option>
-                    <option value="man">man</option>
-                    <option value="woman">woman</option>
-                </select>
-            </label>
-            <label for="streetAddress">
-                street Address:
-                <input type="text" name="streetAddress" id="streetAddress" required>
-            </label>
-            <label for="age">
-                age:
-                <input type="number" name="age" id="age" max="999" required>
-            </label>
-            <label for="phoneNumber">
-                phone number:
-                <input type="tel" name="phoneNumber" id="phoneNumber" pattern="[0-9]{9}" required>
-            </label>
+            <label for="lastName">last name</label>
+            <input type="text" id="lastName" name="lastName" required>
+            <label for="gender">gender</label>
+            <select name="gender" id="gender" required>
+                <option value="nb">non-binary</option>
+                <option value="man">man</option>
+                <option value="woman">woman</option>
+            </select>
+            <label for="streetAddress">street Address:</label>
+            <input type="text" name="streetAddress" id="streetAddress" required>
+            <label for="age">age</label>
+            <input type="number" name="age" id="age" max="999" required>
+            <label for="phoneNumber">phone number</label>
+            <input type="tel" name="phoneNumber" id="phoneNumber" pattern="[0-9]{9}" required>
         </div>
     </form>
+    <?php
+    echo "<script>$('.employee__form').on('submit', function(){
+        updateOrCreateEmployee(" . (isset($_GET['edit']) ? 'PUT' : 'POST') . ");
+    });</script>";
+
+    print_r(json_decode($_GET['employee'])->id);
+    ?>
     <script src="../assets/js/index.js"></script>
 </body>
 

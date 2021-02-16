@@ -1,6 +1,6 @@
 <?php
 
-define("DATABASE_PATH", $_SERVER["DOCUMENT_ROOT"] . "/PHP-EmployeeManagement/php-employee-management-v1/resources/employees.json");
+define("DATABASE_PATH", $_SERVER["DOCUMENT_ROOT"] . "/php-employee-management-v1/resources/employees.json");
 
 function add(array $newEmployee)
 {

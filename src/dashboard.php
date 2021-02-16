@@ -27,7 +27,7 @@
         var employees = [];
         $.ajax({
             type: "GET",
-            url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
+            url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
             dataType: "json",
         }).done(function(response) {
             employees = response;
@@ -41,27 +41,28 @@
                 paging: true,
 
                 rowClick: function(args) {
-                    window.location.href = `employee.php?employee=${args.item}`;
+                    let json = JSON.stringify(args.item);
+                    window.location.href = `employee.php?employee=${json}`;
                 },
-                onItemInserting: function (args) {
+                onItemInserting: function(args) {
                     console.log("inserting")
                     console.log(args.item);
                     $.ajax({
-                    type: "POST",
-                    url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
-                    data: args.item,
-                    dataType: "json",
-                });
+                        type: "POST",
+                        url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
+                        data: args.item,
+                        dataType: "json",
+                    });
                 },
-                onItemUpdating: function () {
+                onItemUpdating: function() {
                     console.log("updating")
                     $.ajax({
-                    type: "PUT",
-                    url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
-                    data: args.item,
-                    dataType: "json",
-                });
-            },
+                        type: "PUT",
+                        url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
+                        data: args.item,
+                        dataType: "json",
+                    });
+                },
                 data: employees,
 
                 fields: [{
@@ -141,7 +142,7 @@
                 ]
             });
         }).fail(function(status) {
-            console.log("fail: "+status);
+            console.log("fail: " + status);
         });;
     </script>
 </body>

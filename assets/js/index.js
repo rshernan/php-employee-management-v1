@@ -42,7 +42,7 @@ function addEmployee(e){
     });
 }
 
-function updateEmployee(e){
+function updateOrCreateEmployee(e, typeRequest="PUT"){
     e.preventDefault();
     let data = {};
     $(".employee__form").serializeArray().forEach(function(element){
@@ -51,7 +51,7 @@ function updateEmployee(e){
     });
     $.ajax({
         url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
-        type: "PUT",
+        type: typeRequest,
         data: data,
         dataType: "json"
     }).done(function(response){
@@ -97,9 +97,3 @@ function getEmployee(employeeId){
         console.log(status);
     });
 }
-
-
-
-$(".employee__form").on('submit', function(){
-    
-});
