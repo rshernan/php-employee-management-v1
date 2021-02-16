@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard page</title>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="jsgrid.min.css" />
     <link type="text/css" rel="stylesheet" href="jsgrid-theme.min.css" />
     <script type="text/javascript" src="jsgrid.min.js"></script>
@@ -22,9 +23,13 @@
 
 <body>
     <div id="jsGrid"></div>
-    <div class="alert alert-danger"></div>
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="btn close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Error!</strong>
+    </div>
     <script>
-        console.log("hola")
         var employees = [];
         $.ajax({
             type: "GET",
@@ -66,7 +71,8 @@
                     });
                 },
                 onItemUpdating: function () {
-                    window.location.href = `employee.php?employee=${args.item}&edit=true`;
+                    prevent.default ();
+                    window.location.href = `employee.php?employee=${args.item}`;
                 },
                 onItemDeleting: function (args) {
                     console.log("delete")
@@ -80,27 +86,16 @@
                 },
                 data: employees,
 
-                fields: [{
+                fields: [
+                    {
                         name: "name",
                         title: "Name",
                         type: "text",
                         align: "center",
                         validate: {
                             validator: function(value, item) {
-                                if (value == "") {
-                                    return false;
-                                } else {
-                                    name_regex = /^[a-zA-Z-' ]*$/;
-                                    return name_regex.test(value);
-                                }
-                                },
-                            message: function(value, item) {
-                                if (value == "") {
-                                    return "The name is required";
-                                } else {
-                                    return "Please, use a valid name";
-                                }
-                            }
+                                validationFunction(value, item);
+                            },
                         }
                     },
                     //{
@@ -119,19 +114,16 @@
                         validate: {
                             validator: function(value, item) {
                                 if (value == "") {
-                                    return false;
+                                    $errorMsg = `<p>You need to enter an email</p>`
+                                    $(".alert").append($errorMsg);
                                 } else {
                                     email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-                                    return email_regex.test(value);
+                                    if (!email_regex.test(value)) {
+                                        $errorMsg = `<p>Please, enter a valid email</p>`
+                                        $(".alert").append($errorMsg);
+                                    }
                                 }
-                                },
-                            message: function(value, item) {
-                                if (value == "") {
-                                    return "The email is required";
-                                } else {
-                                    return "Please, enter a correct email";
-                                }
-                            }
+                            },
                         }
                     },
                     {
@@ -140,13 +132,22 @@
                         type: "number",
                         align: "center",
                         width: 40,
-                        validate: [
-                            "required",
-                            { validator: "range", param: [21, 80] },
-                            function(value, item) {
-                                return item.IsRetired ? value > 55 : true;
-                            }
-                        ]
+                        validate: {
+                            validator: function(value, item) {
+                                if (value == null) {
+                                    $errorMsg = `<p>You need to enter an age</p>`
+                                    $(".alert").append($errorMsg);
+                                } else {
+                                    if (value > 100 || value < 16){
+                                    $errorMsg = `<p>The age must be between 16 and 100</p>`
+                                    $(".alert").append($errorMsg);
+                                    } else if (!Number.isInteger(value) && value != "") {
+                                    $errorMsg = `<p>Please enter a correct age</p>`
+                                    $(".alert").append($errorMsg);
+                                    }
+                                }
+                            },
+                        }
                     },
                     //{
                     //    name: "gender",
@@ -190,24 +191,43 @@
                         width: 100,
                         validate: {
                             validator: function(value, item) {
-                                    return value.length == 10 && phoneBelongsToCountry(value, item.Country);
-                                },
-                            message: function(value, item) {
-                                return "Please, enter a correct phone number";
-                            }
+                                if (value == null) {
+                                    $errorMsg = `<p>You need to enter a phone number</p>`
+                                    $(".alert").append($errorMsg);
+                                } else {
+                                    if (!value.length == 10 && phoneBelongsToCountry(value, item.Country)) {
+                                        $(".alert").text("Please enter a valid phone");
+                                    }
+                                }
+                            },
                         }
-},
-
-            
-
+                    },
                     {
                         type: "control"
                     }
                 ]
-            });
+        });
         }).fail(function(status) {
             console.log("fail: "+status);
-        });;
+        });
+    function validationFunction(value, item) {
+        switch (item) {
+            case "name":
+                if (value == "") {
+                $errorMsg = `<p>You need to enter a name</p>`
+                $(".alert").append($errorMsg);
+                } else {
+                    name_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+                    if (!name_regex.test(value)) {
+                        $errorMsg = `<p>Please, enter a valid name</p>`
+                        $(".alert").append($errorMsg);
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+    }
     </script>
 </body>
 
