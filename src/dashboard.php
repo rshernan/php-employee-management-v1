@@ -51,17 +51,21 @@
                     url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
                     data: args.item,
                     dataType: "json",
-                });
+                    });
                 },
                 onItemUpdating: function () {
-                    console.log("updating")
+                    window.location.href = `employee.php?employee=${args.item}&edit=true`;
+                },
+                onItemDeleting: function (args) {
+                    console.log("delete")
+                    console.log(args.item);
                     $.ajax({
-                    type: "PUT",
+                    type: "DELETE",
                     url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
                     data: args.item,
                     dataType: "json",
-                });
-            },
+                    });
+                },
                 data: employees,
 
                 fields: [{
