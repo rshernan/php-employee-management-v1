@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+<!-- TODO Application entry point. Login view -->
+=======
 <!-- TODO Application entry point. Login view -->
 <!DOCTYPE html>
 <html lang="en">
@@ -51,3 +54,4 @@
 <script src="assets/js/index.js"></script>
 </body>
 </html>
+>>>>>>> 2f7dc231e9e8f0568ccb055804b99434cd529a52
