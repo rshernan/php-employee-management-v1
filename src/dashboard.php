@@ -41,24 +41,27 @@
                 paging: true,
 
                 rowClick: function(args) {
-                    let json = JSON.stringify(args.item);
-                    window.location.href = `employee.php?employee=${json}`;
+                    window.location.href = `employee.php?employee=${JSON.stringify(args.item)}&edit=true`;
                 },
                 onItemInserting: function(args) {
                     console.log("inserting")
                     console.log(args.item);
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
+                        url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
                         data: args.item,
                         dataType: "json",
                     });
                 },
                 onItemUpdating: function() {
-                    console.log("updating")
+                    window.location.href = `employee.php?employee=${JSON.stringify(args.item)}&edit=true`;
+                },
+                onItemDeleting: function(args) {
+                    console.log("delete")
+                    console.log(args.item);
                     $.ajax({
-                        type: "PUT",
-                        url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
+                        type: "DELETE",
+                        url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
                         data: args.item,
                         dataType: "json",
                     });
