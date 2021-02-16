@@ -26,29 +26,16 @@ function hideErrorMsg () {
 
 $(".close").on('click', hideErrorMsg);
 
-function addEmployee(e){
-    e.preventDefault();
-    let data = {};
-    $.ajax({
-        url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
-        type: "POST",
-        data: data,
-        dataType: "json"
-    }).done(function(response){
-        console.log(response);
-        console.log("usuario agregado");
-    }).fail(function(status) {
-        console.log(status);
-    });
-}
-
-function updateOrCreateEmployee(e, typeRequest="PUT"){
+function updateOrCreateEmployee(e, typeRequest="PUT", id){
     e.preventDefault();
     let data = {};
     $(".employee__form").serializeArray().forEach(function(element){
         let pairValue = {[element.name] : element.value}
         Object.assign(data,pairValue);
     });
+    if(!(id==null)){
+        Object.assign(data, {"id":id});
+    }
     $.ajax({
         url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
         type: typeRequest,
@@ -97,3 +84,8 @@ function getEmployee(employeeId){
         console.log(status);
     });
 }
+
+/*$('#back').on("click", function(){
+    console.log("back");
+    window.location.href = "dashboard.php";
+})*/

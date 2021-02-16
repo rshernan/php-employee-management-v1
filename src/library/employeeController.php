@@ -49,16 +49,12 @@ function getAllEmployees()
     }
 }
 
-function removeSubmit()
-{
-    unset($_REQUEST["submit"]);
-}
-
 function getQueryStringParameters(): array
 {
-    print_r($_REQUEST);
-    return $_REQUEST;
+    parse_str(file_get_contents('php://input'), $query);
+    return $query;
 }
+
 switch ($_SERVER['REQUEST_METHOD']) {
     case "DELETE":
         deleteEmployee();
