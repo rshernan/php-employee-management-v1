@@ -1,0 +1,26 @@
+select{
+    height: 30px;
+}
+
+.column{
+    display:flex;
+    flex-direction:column;
+    margin: 0 20px;
+}
+
+.column *{
+    margin: 5px 5px;
+}
+
+
+
+form{
+    display:flex;
+    flex-direction:row;
+    margin-top: 50px;
+}
+
+main{
+    display: flex;
+    justify-content: center;
+}

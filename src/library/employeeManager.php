@@ -1,6 +1,6 @@
 <?php
 
-define("DATABASE_PATH", $_SERVER["DOCUMENT_ROOT"] . "/PHP-EmployeeManagement/php-employee-management-v1/resources/employees.json");
+define("DATABASE_PATH", $_SERVER["DOCUMENT_ROOT"] . "/php-employee-management-v1/resources/employees.json");
 
 function add(array $newEmployee)
 {
@@ -39,9 +39,9 @@ function update(array $updateEmployee)
     try {
         $string  = file_get_contents(DATABASE_PATH);
         $json_array = json_decode($string, true);
-        foreach ($json_array as $key => $value) {
+        foreach ($json_array as $key => &$value) {
             if ($value['id'] == $updateEmployee['id']) {
-                array_replace($json_array, array($key => $updateEmployee));
+                $value = $updateEmployee;
             }
         }
         $encoded_json = json_encode($json_array);

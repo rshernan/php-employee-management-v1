@@ -7,24 +7,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard page</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="jsgrid.min.css" />
-    <link type="text/css" rel="stylesheet" href="jsgrid-theme.min.css" />
-    <link rel="stylesheet" href="../assets/css/main.css">
-
-    <script type="text/javascript" src="jsgrid.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <?php
-    include('../assets/html/header.html');
+include("./library/sessionhelper.php");
+include('../assets/html/header.html');
 ?>
+
 <body>
     <div id="jsGrid"></div>
     <div class="alert alert-danger alert-dismissible validation">
@@ -35,12 +30,12 @@
     </div>
     <?php
     include('../assets/html/footer.html');
-?>
+    ?>
     <script>
         var employees = [];
         $.ajax({
             type: "GET",
-            url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
+            url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
             dataType: "json",
         }).done(function(response) {
             employees = response;
@@ -62,42 +57,37 @@
 
                 confirmDeleting: true,
                 deleteConfirm: "Do you really want to delete the employee?",
- 
+
 
                 rowClick: function(args) {
-                    window.location.href = `employee.php?employee=${args.item}`;
+                    window.location.href = `employee.php?employee=${JSON.stringify(args.item)}&edit=true`;
                 },
                 editItem: function(item) {
-                    window.location.href = `employee.php?employee=${args.item}&edit=true`;
+                    window.location.href = `employee.php?employee=${JSON.stringify(item)}&edit=true`;
                 },
-                onItemInserting: function (args) {
+                onItemInserting: function(args) {
                     console.log("inserting")
                     console.log(args.item);
                     $.ajax({
-                    type: "POST",
-                    url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
-                    data: args.item,
-                    dataType: "json",
+                        type: "POST",
+                        url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
+                        data: args.item,
+                        dataType: "json",
                     });
                 },
-                onItemUpdating: function (args) {
-                    window.location.href = `employee.php?employee=${args.item}`;
-                    args.cancel = true;
-                },
-                onItemDeleting: function (args) {
+                onItemDeleting: function(args) {
                     console.log("delete")
                     console.log(args.item);
                     $.ajax({
-                    type: "DELETE",
-                    url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
-                    data: args.item,
-                    dataType: "json",
+                        type: "DELETE",
+                        url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
+                        data: args.item,
+                        dataType: "json",
                     });
                 },
                 data: employees,
 
-                fields: [
-                    {
+                fields: [{
                         name: "name",
                         title: "Name",
                         type: "text",
@@ -190,69 +180,76 @@
                         type: "control"
                     }
                 ]
-        });
+            });
         }).fail(function(status) {
-            console.log("fail: "+status);
+            console.log("fail: " + status);
         });
-    function validationFunction(value, field) {
-        $(".alert").fadeIn();
-        switch (field) {
-            case "name":
-                if (value == "") {
-                $errorMsg = `<p>You need to enter a name</p>`
-                $(".alert").append($errorMsg);
-                } else {
-                    name_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-                    if (!name_regex.test(value)) {
-                        $errorMsg = `<p>Please, enter a valid name</p>`
+
+        function validationFunction(value, field) {
+            $(".alert").fadeIn();
+            switch (field) {
+                case "name":
+                    if (value == "") {
+                        $errorMsg = `<p>You need to enter a name</p>`
                         $(".alert").append($errorMsg);
+                    } else {
+                        name_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+                        if (!name_regex.test(value)) {
+                            $errorMsg = `<p>Please, enter a valid name</p>`
+                            $(".alert").append($errorMsg);
+                        } else {
+                            name_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+                            if (!name_regex.test(value)) {
+                                $errorMsg = `<p>Please, enter a valid name</p>`
+                                $(".alert").append($errorMsg);
+                            }
+                        }
                     }
-                }
-                break;
-            case "email":
-                if (value == "") {
-                    $errorMsg = `<p>You need to enter an email</p>`
-                    $(".alert").append($errorMsg);
-                } else {
-                    email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-                    if (!email_regex.test(value)) {
-                        $errorMsg = `<p>Please, enter a valid email</p>`
+                    break;
+                case "email":
+                    if (value == "") {
+                        $errorMsg = `<p>You need to enter an email</p>`
                         $(".alert").append($errorMsg);
+                    } else {
+                        email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+                        if (!email_regex.test(value)) {
+                            $errorMsg = `<p>Please, enter a valid email</p>`
+                            $(".alert").append($errorMsg);
+                        }
                     }
-                }
-                break;
-            case "age":
-                if (value == null) {
-                    $errorMsg = `<p>You need to enter an age</p>`
-                    $(".alert").append($errorMsg);
-                } else {
-                    if (value > 100 || value < 16){
-                    $errorMsg = `<p>The age must be between 16 and 100</p>`
-                    $(".alert").append($errorMsg);
-                    } else if (!Number.isInteger(value) && value != "") {
-                    $errorMsg = `<p>Please enter a correct age</p>`
-                    $(".alert").append($errorMsg);
+                    break;
+                case "age":
+                    if (value == null) {
+                        $errorMsg = `<p>You need to enter an age</p>`
+                        $(".alert").append($errorMsg);
+                    } else {
+                        if (value > 100 || value < 16) {
+                            $errorMsg = `<p>The age must be between 16 and 100</p>`
+                            $(".alert").append($errorMsg);
+                        } else if (!Number.isInteger(value) && value != "") {
+                            $errorMsg = `<p>Please enter a correct age</p>`
+                            $(".alert").append($errorMsg);
+                        }
                     }
-                }
-                break;
-            case "phone":
-                if (value == null) {
-                    $errorMsg = `<p>You need to enter an age</p>`
-                    $(".alert").append($errorMsg);
-                } else {
-                    if (value > 100 || value < 16){
-                    $errorMsg = `<p>The age must be between 16 and 100</p>`
-                    $(".alert").append($errorMsg);
-                    } else if (!Number.isInteger(value) && value != "") {
-                    $errorMsg = `<p>Please enter a correct age</p>`
-                    $(".alert").append($errorMsg);
+                    break;
+                case "phone":
+                    if (value == null) {
+                        $errorMsg = `<p>You need to enter an age</p>`
+                        $(".alert").append($errorMsg);
+                    } else {
+                        if (value > 100 || value < 16) {
+                            $errorMsg = `<p>The age must be between 16 and 100</p>`
+                            $(".alert").append($errorMsg);
+                        } else if (!Number.isInteger(value) && value != "") {
+                            $errorMsg = `<p>Please enter a correct age</p>`
+                            $(".alert").append($errorMsg);
+                        }
                     }
-                }
-                break;
-            default:
-                break;
+                    break;
+                default:
+                    break;
+            }
         }
-    }
     </script>
     <script src="../assets/js/index.js"></script>
 
