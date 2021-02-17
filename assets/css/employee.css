@@ -20,7 +20,7 @@ form{
     margin-top: 50px;
 }
 
-body{
+main{
     display: flex;
     justify-content: center;
 }

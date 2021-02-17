@@ -19,38 +19,45 @@
 
 
 <body>
-    <form action="" method="post" class="employee__form">
-        <div class="column">
-            <label for="name">name</label>
-            <input type="text" id="name" name="name" value="<?php echo (isset($_GET['edit']) ? json_decode($_GET['employee'])->name : "") ?>" required>
-            <label for="email">email</label>
-            <input type="email" id="email" name="email" value="<?php echo (isset($_GET['edit']) ? json_decode($_GET['employee'])->email : "") ?>" required>
-            <label for="city">city</label>
-            <input type="text" id="city" name="city" value="<?php echo (isset($_GET['edit']) ? json_decode($_GET['employee'])->city : "") ?>" required>
-            <label for="state">state</label>
-            <input type="text" id="state" name="state" value="<?php echo (isset($_GET['edit']) ? json_decode($_GET['employee'])->state : "") ?>" required>
-            <label for="postalCode">postal code</label>
-            <input type="number" id="postalCode" name="postalCode" max="99999" value="<?php echo (isset($_GET['edit']) ? json_decode($_GET['employee'])->postalCode : "") ?>" required>
-            <input name="submit" type="submit" value="save" />
-            <button id="back">back</button>
-        </div>
-        <div class="column">
-            <label for="lastName">last name</label>
-            <input type="text" id="lastName" name="lastName" value="<?php echo (isset($_GET['edit']) ? json_decode($_GET['employee'])->lastName : "") ?>" required>
-            <label for="gender">gender</label>
-            <select name="gender" id="gender" class="select" required>
-                <option value="nb" <?php echo (isset($_GET['edit']) ? ((json_decode(($_GET['employee']))->gender == "nb") ? "selected" : "") : "") ?>>non-binary</option>
-                <option value="man" <?php echo (isset($_GET['edit']) ? ((json_decode(($_GET['employee']))->gender == "man") ? "selected" : "") : "") ?>>man</option>
-                <option value="woman" <?php echo (isset($_GET['edit']) ? ((json_decode(($_GET['employee']))->gender == "woman") ? "selected" : "") : "") ?>>woman</option>
-            </select>
-            <label for="streetAddress">street Address:</label>
-            <input type="text" name="streetAddress" id="streetAddress" value="<?php echo (isset($_GET['edit']) ? json_decode($_GET['employee'])->streetAddress : "") ?>" required>
-            <label for="age">age</label>
-            <input type="number" name="age" id="age" max="999" value="<?php echo (isset($_GET['edit']) ? json_decode($_GET['employee'])->age : "") ?>" required>
-            <label for="phoneNumber">phone number</label>
-            <input type="tel" name="phoneNumber" id="phoneNumber" pattern="[0-9]{9}" value="<?php echo (isset($_GET['edit']) ? json_decode($_GET['employee'])->phoneNumber : "") ?>" required>
-        </div>
-    </form>
+    <?php
+    include("./library/sessionhelper.php");
+    include('../assets/html/header.html');
+    ?>
+    <main>
+        <form action="" method="post" class="employee__form">
+            <div class="column">
+                <label for="name">name</label>
+                <input type="text" id="name" name="name" value="<?php echo (isset($_GET['edit']) ? json_decode($_GET['employee'])->name : "") ?>" required>
+                <label for="email">email</label>
+                <input type="email" id="email" name="email" value="<?php echo (isset($_GET['edit']) ? json_decode($_GET['employee'])->email : "") ?>" required>
+                <label for="city">city</label>
+                <input type="text" id="city" name="city" value="<?php echo (isset($_GET['edit']) ? json_decode($_GET['employee'])->city : "") ?>" required>
+                <label for="state">state</label>
+                <input type="text" id="state" name="state" value="<?php echo (isset($_GET['edit']) ? json_decode($_GET['employee'])->state : "") ?>" required>
+                <label for="postalCode">postal code</label>
+                <input type="number" id="postalCode" name="postalCode" max="99999" value="<?php echo (isset($_GET['edit']) ? json_decode($_GET['employee'])->postalCode : "") ?>" required>
+                <input name="submit" type="submit" value="save" />
+                <button id="back">back</button>
+            </div>
+            <div class="column">
+                <label for="lastName">last name</label>
+                <input type="text" id="lastName" name="lastName" value="<?php echo (isset($_GET['edit']) ? json_decode($_GET['employee'])->lastName : "") ?>" required>
+                <label for="gender">gender</label>
+                <select name="gender" id="gender" class="select" required>
+                    <option value="nb" <?php echo (isset($_GET['edit']) ? ((json_decode(($_GET['employee']))->gender == "nb") ? "selected" : "") : "") ?>>non-binary</option>
+                    <option value="man" <?php echo (isset($_GET['edit']) ? ((json_decode(($_GET['employee']))->gender == "man") ? "selected" : "") : "") ?>>man</option>
+                    <option value="woman" <?php echo (isset($_GET['edit']) ? ((json_decode(($_GET['employee']))->gender == "woman") ? "selected" : "") : "") ?>>woman</option>
+                </select>
+                <label for="streetAddress">street Address:</label>
+                <input type="text" name="streetAddress" id="streetAddress" value="<?php echo (isset($_GET['edit']) ? json_decode($_GET['employee'])->streetAddress : "") ?>" required>
+                <label for="age">age</label>
+                <input type="number" name="age" id="age" max="999" value="<?php echo (isset($_GET['edit']) ? json_decode($_GET['employee'])->age : "") ?>" required>
+                <label for="phoneNumber">phone number</label>
+                <input type="tel" name="phoneNumber" id="phoneNumber" pattern="[0-9]{9}" value="<?php echo (isset($_GET['edit']) ? json_decode($_GET['employee'])->phoneNumber : "") ?>" required>
+            </div>
+        </form>
+    </main>
+
     <script src="../assets/js/index.js"></script>
     <?php
     echo "<script>$('.employee__form').on('submit', function(){

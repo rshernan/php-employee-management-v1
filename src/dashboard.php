@@ -7,22 +7,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard page</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" href="jsgrid.min.css" />
-    <link type="text/css" rel="stylesheet" href="jsgrid-theme.min.css" />
-    <link rel="stylesheet" href="../assets/css/main.css">
-
-    <script type="text/javascript" src="jsgrid.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <?php
+include("./library/sessionhelper.php");
 include('../assets/html/header.html');
 ?>
 
@@ -69,14 +63,14 @@ include('../assets/html/header.html');
                     window.location.href = `employee.php?employee=${JSON.stringify(args.item)}&edit=true`;
                 },
                 editItem: function(item) {
-                    window.location.href = `employee.php?employee=${JSON.stringify(args.item)}&edit=true`;
+                    window.location.href = `employee.php?employee=${JSON.stringify(item)}&edit=true`;
                 },
                 onItemInserting: function(args) {
                     console.log("inserting")
                     console.log(args.item);
                     $.ajax({
                         type: "POST",
-                        url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
+                        url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
                         data: args.item,
                         dataType: "json",
                     });
@@ -86,7 +80,7 @@ include('../assets/html/header.html');
                     console.log(args.item);
                     $.ajax({
                         type: "DELETE",
-                        url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
+                        url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
                         data: args.item,
                         dataType: "json",
                     });
