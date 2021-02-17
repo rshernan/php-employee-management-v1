@@ -85,7 +85,8 @@ function getEmployee(employeeId){
     });
 }
 
-/*$('#back').on("click", function(){
+$('#back').on("click", function(e){
     console.log("back");
+    e.preventDefault();
     window.location.href = "dashboard.php";
-})*/
+})
