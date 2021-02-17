@@ -35,7 +35,7 @@ include('../assets/html/header.html');
         var employees = [];
         $.ajax({
             type: "GET",
-            url: "http://localhost/php-employee-management-v1/src/library/employeeController.php",
+            url: "http://localhost/PHP-EmployeeManagement/php-employee-management-v1/src/library/employeeController.php",
             dataType: "json",
         }).done(function(response) {
             employees = response;
