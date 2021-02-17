@@ -11,6 +11,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
     <link type="text/css" rel="stylesheet" href="jsgrid.min.css" />
     <link type="text/css" rel="stylesheet" href="jsgrid-theme.min.css" />
+    <link rel="stylesheet" href="../assets/css/main.css">
+
     <script type="text/javascript" src="jsgrid.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
@@ -20,15 +22,21 @@
     <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
 </head>
+<?php
+include('../assets/html/header.html');
+?>
 
 <body>
     <div id="jsGrid"></div>
-    <div class="alert alert-danger alert-dismissible">
+    <div class="alert alert-danger alert-dismissible validation">
         <button type="button" class="btn close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
         <strong>Error!</strong>
     </div>
+    <?php
+    include('../assets/html/footer.html');
+    ?>
     <script>
         var employees = [];
         $.ajax({
@@ -184,6 +192,7 @@
         });
 
         function validationFunction(value, field) {
+            $(".alert").fadeIn();
             switch (field) {
                 case "name":
                     if (value == "") {
@@ -194,6 +203,12 @@
                         if (!name_regex.test(value)) {
                             $errorMsg = `<p>Please, enter a valid name</p>`
                             $(".alert").append($errorMsg);
+                        } else {
+                            name_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+                            if (!name_regex.test(value)) {
+                                $errorMsg = `<p>Please, enter a valid name</p>`
+                                $(".alert").append($errorMsg);
+                            }
                         }
                     }
                     break;
@@ -242,6 +257,8 @@
             }
         }
     </script>
+    <script src="../assets/js/index.js"></script>
+
 </body>
 
 </html>
